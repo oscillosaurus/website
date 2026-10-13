@@ -111,6 +111,14 @@
     padding-right:var(--pad);
   }
 
+  /* Keep long single-word page titles inside narrow mobile viewports.
+     The desktop rule has a 70px minimum, which can overflow on phones. */
+  .page-title h1 {
+    max-width:100%;
+    font-size:clamp(40px,12vw,70px);
+    line-height:.88;
+  }
+
   .section-head {
     grid-template-columns:1fr;
     gap:18px;
