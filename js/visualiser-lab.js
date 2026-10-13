@@ -74,8 +74,19 @@ draw();
 
  function setFullscreenState(on){
    document.body.classList.toggle('art-fullscreen',on);
+   fsButton.textContent=on?'EXIT FULLSCREEN':'FULLSCREEN';
+   fsButton.setAttribute('aria-label',on?'Exit fullscreen':'Enter fullscreen');
  }
  fsButton.addEventListener('click',async()=>{
+   const isFullscreen=document.body.classList.contains('art-fullscreen');
+   if(isFullscreen){
+     setFullscreenState(false);
+     if(document.fullscreenElement && document.exitFullscreen){
+       try{ await document.exitFullscreen(); }catch(e){}
+     }
+     return;
+   }
+
    setFullscreenState(true);
    try{
      if(stage.requestFullscreen) await stage.requestFullscreen();
@@ -84,7 +95,7 @@ draw();
    }
  });
  document.addEventListener('fullscreenchange',()=>{
-   if(!document.fullscreenElement) setFullscreenState(false);
+   setFullscreenState(Boolean(document.fullscreenElement));
  });
  document.addEventListener('keydown',e=>{
    if(e.key==='Escape' && document.body.classList.contains('art-fullscreen')){
