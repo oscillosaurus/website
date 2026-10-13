@@ -1,0 +1,466 @@
+/* Oscillosaurus public Visualiser — integrated v7.15 Lab */
+:root{--black:#000;--ink:#080908;--gold:#BB8C11;--azure:#0A9EB0;--green:#127359;--paper:#f4f0e6;--muted:#aaa79d}
+*{box-sizing:border-box}html,body{margin:0;background:#000;color:var(--paper);font-family:"Dosis","Arial Narrow",Arial,sans-serif}
+body{min-height:100vh}.app{display:grid;grid-template-columns:minmax(0,1fr) 390px;min-height:100vh}
+.stage{position:sticky;top:0;height:100vh;background:radial-gradient(circle at 50% 50%,#101312,#030403 65%);overflow:hidden}
+#art{width:100%;height:100%;display:block}.stage-tools{position:absolute;left:20px;bottom:18px;right:20px;display:flex;justify-content:space-between;font:11px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.12em;color:#aaa79d}
+.stage-tools label{display:flex;gap:8px;align-items:center}.panel{border-left:1px solid #242824;background:#080908;padding:28px 24px 60px;overflow:auto}
+header{padding-bottom:22px;border-bottom:1px solid #242824}.eyebrow,h2,footer{font:10px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.18em}
+h1{font-size:24px;font-weight:300;letter-spacing:.08em;margin:7px 0}h1 b{color:var(--gold);font-weight:400}header p{color:var(--muted);font-size:13px;margin:0}
+.block{padding:22px 0;border-bottom:1px solid #242824}h2{color:var(--gold);margin:0 0 18px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font:10px/1.35 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.08em;color:#d7d3c9;margin:0 0 15px}
+output{float:right;color:var(--azure)}input[type=range]{appearance:none;width:100%;height:18px;background:transparent;margin:7px 0 0}
+input[type=range]::-webkit-slider-runnable-track{height:1px;background:#4b504b}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:8px;height:16px;margin-top:-7px;border:1px solid var(--gold);background:#080908}
+input[type=range]::-moz-range-track{height:1px;background:#4b504b}input[type=range]::-moz-range-thumb{width:8px;height:16px;border-radius:0;border:1px solid var(--gold);background:#080908}
+.seedrow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:end}.seedrow label{margin:0}.seedrow input{width:100%;margin-top:7px;background:#050605;border:1px solid #343934;color:var(--paper);padding:8px;font:12px ui-monospace,monospace}
+button{border:1px solid #454b45;background:#080908;color:#fff;padding:9px 10px;font:9px ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}button:hover{border-color:var(--gold);color:var(--gold)}
+.voice{padding:13px 0 5px;border-top:1px dotted #303530}.voice:first-child{border-top:0;padding-top:0}.voice-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.voice-name{font:11px ui-monospace,monospace;letter-spacing:.13em}.voice-dot{width:7px;height:7px;border-radius:50%}.voice .two label{margin-bottom:10px}
+footer{color:#777b76;padding-top:22px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.stage{position:relative;height:62vh}.panel{border-left:0;border-top:1px solid #242824}}
+
+h2 small{font-size:8px;color:#777b76;letter-spacing:.12em;margin-left:6px}.character-note{font:10px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;color:#777b76;margin:-7px 0 18px}
+.voice-dot{background:linear-gradient(90deg,var(--gold) 0 33%,var(--azure) 33% 66%,var(--green) 66% 100%)}
+
+.stage-actions{display:flex;align-items:center;gap:12px}.stage-actions label{margin:0}
+.stage-tools button{padding:6px 8px}
+body.art-fullscreen .app{display:block}
+body.art-fullscreen .panel{display:none}
+body.art-fullscreen .stage{position:fixed;inset:0;width:100vw;height:100vh;z-index:9999}
+body.art-fullscreen .stage-tools{display:none}
+select,input[type=number]{width:100%;margin-top:7px;background:#050605;border:1px solid #343934;color:var(--paper);padding:8px;font:12px ui-monospace,monospace}
+.export-button{width:100%;border-color:rgba(187,140,17,.7);padding:11px}.export-button:hover{background:var(--gold);color:#000}
+.custom-size[hidden]{display:none}
+
+.transport{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end;margin-bottom:18px}.transport label{margin:0}
+.lfo{border-top:1px dotted #303530;padding:16px 0 4px}.lfo:first-child{border-top:0}
+.lfo-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font:11px ui-monospace,monospace;letter-spacing:.13em}
+.lfo-led{width:7px;height:7px;border-radius:50%;background:var(--green);opacity:.25}
+.lfo.active .lfo-led{opacity:1}
+.lfo select{margin-bottom:10px}
+.routes{margin-top:8px}.route-row{display:grid;grid-template-columns:minmax(0,1fr) 80px 24px;gap:6px;align-items:center;margin:6px 0}
+.route-row select,.route-row input{margin:0}.route-row button{padding:6px 0}
+.add-route{width:100%;margin-top:8px;border-style:dashed}
+
+/* v4.1 navigation hierarchy */
+.block>h2{font-size:16px;line-height:1.15;letter-spacing:.14em;margin-bottom:22px}
+.lfo-title{font-size:14px;line-height:1.2;letter-spacing:.15em;margin-bottom:16px}
+.free-rate{width:100%}
+
+
+/* v7.0 — intentionally minimal continuous motion proof */
+@keyframes v7-orbit-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.v7-orbit-spin {
+  transform-box: view-box;
+  animation-name: v7-orbit-spin;
+  animation-duration: var(--v7-duration, 12s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.v7-orbit-reverse {
+  animation-direction: reverse;
+}
+
+.v7-note {
+  margin:0 0 18px;
+  color:#8b8e89;
+  font-size:12px;
+  line-height:1.45;
+}
+
+.v7-status {
+  margin-top:12px;
+  padding:8px 10px;
+  border:1px solid #29302b;
+  color:var(--green);
+  font:10px ui-monospace,monospace;
+  letter-spacing:.1em;
+}
+
+#continuousPlay {
+  width:100%;
+  margin-top:10px;
+}
+
+
+@keyframes v71-dash-cycle {
+  from { stroke-dashoffset: var(--v71-dash-from, 0); }
+  to   { stroke-dashoffset: var(--v71-dash-to, 0); }
+}
+
+.v71-rotate-spin {
+  transform-box:view-box;
+  animation-name:v7-orbit-spin;
+  animation-duration:var(--v7-duration,12s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+.v71-dash-spin {
+  animation-name:v71-dash-cycle;
+  animation-duration:var(--v7-duration,12s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+.v71-reverse {
+  animation-direction:reverse;
+}
+
+
+/* v7.3 — LFO 1 shell. The sampled SINE keyframes are generated once
+   whenever Depth changes; the browser owns interpolation and playback. */
+.v73-lfo-sine {
+  transform-box:view-box;
+  animation-name:v73-lfo-sine;
+  animation-duration:var(--v73-lfo-duration,12s);
+  animation-delay:var(--v73-lfo-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+#lfo1Play {
+  width:100%;
+  margin-top:10px;
+}
+
+
+/* v7.4 — shared transport + structurally additive motion sources */
+.v74-transport{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:0 0 10px;
+}
+.v74-transport button{width:100%}
+
+.v74-source{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid #242925;
+}
+.v74-source-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.v74-source-head h3{
+  margin:0;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.12em;
+}
+.v74-enable{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center;
+  gap:6px;
+  width:auto!important;
+  font-size:10px;
+}
+.v74-enable input{width:auto!important;margin:0}
+
+/* Known-good literal continuous turn. */
+@keyframes v74-cont-rotate{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+.v74-cont-rotate{
+  transform-box:view-box;
+  animation-name:v74-cont-rotate;
+  animation-duration:var(--v74-cont-duration,12s);
+  animation-delay:var(--v74-cont-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+.v74-cont-reverse{animation-direction:reverse}
+
+/* Gate phase retains its own non-transform property animation. */
+@keyframes v74-cont-dash{
+  from{stroke-dashoffset:var(--v74-dash-from,0)}
+  to{stroke-dashoffset:var(--v74-dash-to,0)}
+}
+.v74-cont-dash{
+  animation-name:v74-cont-dash;
+  animation-duration:var(--v74-cont-duration,12s);
+  animation-delay:var(--v74-cont-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+/* LFO 1 keyframes are injected by JS. This class only owns playback. */
+.v74-lfo1-sine{
+  transform-box:view-box;
+  animation-name:v74-lfo1-sine;
+  animation-duration:var(--v74-lfo1-duration,12s);
+  animation-delay:var(--v74-lfo1-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+
+/* v7.6 — LFO waveform selector; browser still owns every animation frame. */
+.v76-lfo1 {
+  transform-box:view-box;
+  animation-name:v76-lfo1-wave;
+  animation-duration:var(--v74-lfo1-duration,12s);
+  animation-delay:var(--v74-lfo1-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+
+/* v7.7 — ON/OFF also expands/collapses source controls */
+.v77-source-body{
+  display:grid;
+  grid-template-rows:1fr;
+  opacity:1;
+  transition:grid-template-rows .22s ease, opacity .18s ease, margin .22s ease;
+  overflow:hidden;
+}
+.v77-source-body > *{
+  min-height:0;
+}
+.v74-source.is-off .v77-source-body{
+  grid-template-rows:0fr;
+  opacity:0;
+  margin-top:-4px;
+  pointer-events:none;
+}
+.v74-source.is-off .v77-source-body > *{
+  overflow:hidden;
+}
+.v74-source.is-off .v74-source-head{
+  margin-bottom:0;
+}
+
+/* v7.8 — generic source animation classes */
+.v78-playhead-rotate{
+  transform-box:view-box;
+  animation-name:v74-cont-rotate;
+  animation-duration:var(--v78-duration,12s);
+  animation-delay:var(--v78-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+.v78-reverse{animation-direction:reverse}
+.v78-lfo{
+  transform-box:view-box;
+  animation-name:var(--v78-lfo-name);
+  animation-duration:var(--v78-duration,12s);
+  animation-delay:var(--v78-delay,0s);
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+
+/* v7.8.2 — full source collapse */
+.v77-source-body[hidden]{
+  display:none !important;
+}
+.v74-source.is-off .v77-source-body{
+  display:none !important;
+}
+
+
+/* --- 4.10 site integration overrides ------------------------------------ */
+.page-visualiser{background:#000;overflow:hidden}
+.page-visualiser .visualiser-shell{
+  position:fixed;
+  left:var(--rail);
+  right:0;
+  top:0;
+  bottom:0;
+  background:#000;
+  z-index:1;
+}
+.page-visualiser .visualiser-app{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 390px;
+  width:100%;
+  height:100vh;
+  min-height:0;
+}
+.page-visualiser .stage{
+  position:relative;
+  top:auto;
+  height:100vh;
+  min-width:0;
+  background:radial-gradient(circle at 50% 50%,#101312,#030403 65%);
+  overflow:hidden;
+}
+.page-visualiser .panel{
+  height:100vh;
+  min-height:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  scrollbar-gutter:stable;
+  border-left:1px solid #242824;
+  background:#080908;
+  padding:28px 24px 60px;
+}
+/* The website and visualiser should speak with the same Oscillosaurus typeface. */
+.page-visualiser .visualiser-app,
+.page-visualiser .visualiser-app button,
+.page-visualiser .visualiser-app input,
+.page-visualiser .visualiser-app select,
+.page-visualiser .visualiser-app label,
+.page-visualiser .visualiser-app output,
+.page-visualiser .visualiser-app .stage-tools,
+.page-visualiser .visualiser-app .eyebrow,
+.page-visualiser .visualiser-app h2,
+.page-visualiser .visualiser-app footer,
+.page-visualiser .visualiser-app .voice-name,
+.page-visualiser .visualiser-app .character-note,
+.page-visualiser .visualiser-app .v7-status{
+  font-family:Dosis,Arial,sans-serif;
+}
+.page-visualiser .visualiser-app label{font-size:11px;letter-spacing:.10em;font-weight:500}
+.page-visualiser .visualiser-app button{font-size:10px;letter-spacing:.11em;font-weight:600}
+.page-visualiser .visualiser-app select,
+.page-visualiser .visualiser-app input[type=number],
+.page-visualiser .visualiser-app .seedrow input{font-family:Dosis,Arial,sans-serif;font-size:12px}
+.page-visualiser .visualiser-app .eyebrow{font-size:10px;font-weight:600}
+.page-visualiser .visualiser-app .block>h2{font-size:15px;font-weight:600}
+.page-visualiser .visualiser-app .voice-name,
+.page-visualiser .visualiser-app .lfo-title,
+.page-visualiser .visualiser-app .v74-source-head h3{font-family:Dosis,Arial,sans-serif;font-weight:600}
+
+/* Normal website navigation remains an independent left rail. */
+.page-visualiser .site-rail{z-index:100}
+.page-visualiser .visualiser-app .panel{z-index:3}
+.page-visualiser .visualiser-app .stage{z-index:1}
+
+/* Fullscreen belongs to the artwork only. */
+.page-visualiser.art-fullscreen .visualiser-shell{position:static}
+.page-visualiser.art-fullscreen .site-rail,
+.page-visualiser.art-fullscreen .mobile-bar,
+.page-visualiser.art-fullscreen .mobile-menu{display:none!important}
+body.art-fullscreen .visualiser-app{display:block}
+body.art-fullscreen .panel{display:none}
+body.art-fullscreen .stage{position:fixed;inset:0;width:100vw;height:100vh;z-index:9999}
+body.art-fullscreen .stage-tools{display:none}
+
+@media(max-width:1100px) and (min-width:901px){
+  .page-visualiser .visualiser-app{grid-template-columns:minmax(0,1fr) 350px}
+  .page-visualiser .panel{padding-left:20px;padding-right:20px}
+}
+@media(max-width:900px){
+  .page-visualiser{overflow:auto}
+  .page-visualiser .visualiser-shell{position:relative;left:auto;right:auto;top:auto;bottom:auto;padding-top:64px}
+  .page-visualiser .visualiser-app{grid-template-columns:1fr;height:auto;min-height:100vh}
+  .page-visualiser .stage{position:relative;height:62vh;min-height:420px}
+  .page-visualiser .panel{height:auto;overflow:visible;border-left:0;border-top:1px solid #242824}
+}
+
+
+
+
+/* ==========================================================================
+   4.17 SIGNAL GARDEN — authoritative mobile monitor layout
+   Matches the site's actual mobile-navigation breakpoint.
+   ========================================================================== */
+
+@media (max-width:900px){
+  .page-signal-garden{
+    --sg-mobile-header:68px;
+    --sg-canvas-h:clamp(240px,44vh,380px);
+    overflow:visible;
+  }
+
+  .page-signal-garden .visualiser-shell{
+    position:relative;
+    left:auto;
+    right:auto;
+    top:auto;
+    bottom:auto;
+    padding-top:var(--sg-mobile-header);
+    overflow:visible;
+    z-index:auto;
+  }
+
+  .page-signal-garden .visualiser-app{
+    display:block;
+    width:100%;
+    height:auto;
+    min-height:100vh;
+    overflow:visible;
+  }
+
+  /* True floating monitor: stays visible while the control panel scrolls. */
+  .page-signal-garden .stage{
+    position:fixed !important;
+    top:var(--sg-mobile-header);
+    left:0;
+    right:0;
+    width:100%;
+    height:var(--sg-canvas-h) !important;
+    min-height:0 !important;
+    max-height:none !important;
+    margin:0;
+    z-index:1200 !important;
+    overflow:hidden;
+    background:radial-gradient(circle at 50% 50%,#101312,#030403 65%);
+    border-bottom:1px solid rgba(187,140,17,.45);
+    box-shadow:0 12px 28px rgba(0,0,0,.42);
+  }
+
+  .page-signal-garden .stage > svg{
+    display:block;
+    width:100%;
+    height:100%;
+  }
+
+  /* Controls begin below the fixed monitor and scroll underneath it. */
+  .page-signal-garden .panel{
+    position:relative !important;
+    z-index:1 !important;
+    width:100%;
+    height:auto !important;
+    min-height:0;
+    overflow:visible !important;
+    margin-top:var(--sg-canvas-h);
+    border-left:0;
+    border-top:1px solid #242824;
+    background:#080908;
+    padding:26px 20px 60px;
+  }
+
+  .page-signal-garden .stage-tools{
+    z-index:2;
+  }
+
+  /* Site chrome remains above the fixed monitor. */
+  .page-signal-garden .mobile-bar{
+    z-index:1300 !important;
+  }
+
+  /* Only the deliberately opened hamburger menu covers the monitor. */
+  .page-signal-garden .mobile-menu{
+    z-index:1290 !important;
+  }
+}
+
+
+/* 4.35: SPEED increases left-to-right while the underlying value remains
+   seconds-per-cycle. RTL reverses the range direction without touching the
+   stable motion engine. */
+#continuousRate{
+  direction:rtl;
+}
+
+
+/* 4.37: LFO RATE sliders follow the same convention as SPEED:
+   slower cycle times to the left, faster cycle times to the right. */
+#lfo1Rate,
+#lfo2Rate,
+#lfo3Rate{
+  direction:rtl;
+}

@@ -1,0 +1,1020 @@
+/*
+===============================================================================
+ OSCILLOSAURUS — MAIN STYLESHEET
+ Clean canonical desktop/global styles.
+===============================================================================
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --veil-strength:.75;
+  --black: #000;
+  --ink: #080908;
+  --gold: #BB8C11;
+  --azure: #0A9EB0;
+  --green: #127359;
+  --paper: #f4f0e6;
+  --muted: #aaa79d;
+  --rail: 216px;
+  --pad: clamp(28px, 5vw, 76px);
+}
+
+* { box-sizing: border-box; }
+html { background:#000; color:var(--paper); font-family:Dosis,Arial,sans-serif; scroll-behavior:smooth; overflow-x:hidden; }
+body { margin:0; background:#000; overflow-x:hidden; }
+a { color:inherit; text-decoration:none; }
+button { font:inherit; }
+.site { min-height:100vh; }
+
+/* DESKTOP RAIL ------------------------------------------------------------- */
+.rail,
+.site-rail {
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--rail);
+  height:100vh;
+  padding:24px 22px;
+  z-index:100;
+  overflow:hidden;
+  background:#020202;
+  border-right:1px solid rgba(187,140,17,.28);
+  display:flex;
+  flex-direction:column;
+}
+
+.brand-home {
+  display:block;
+  width:74px;
+  margin-bottom:48px;
+}
+
+.brand-home img {
+  display:block;
+  width:100px;
+  height:auto;
+  object-fit:contain;
+  filter:invert(68%) sepia(65%) saturate(875%) hue-rotate(5deg) brightness(78%);
+}
+
+.nav { display:grid; gap:20px; }
+
+.nav a {
+  position:relative;
+  color:#dedbd1;
+  font-size:18px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.nav a:hover,
+.nav a.active { color:var(--gold); }
+
+.nav a.active::before {
+  content:"";
+  position:absolute;
+  left:-14px;
+  top:5px;
+  width:3px;
+  height:17px;
+  background:var(--azure);
+}
+
+.rail-social {
+  margin-top:auto;
+  padding-top:22px;
+  border-top:1px solid rgba(187,140,17,.4);
+  color:#dedbd1;
+  font-size:18px;
+  letter-spacing:.08em;
+  text-transform:lowercase;
+}
+
+.rail-social a {
+  color: inherit;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+
+.rail-social a:hover {
+  color: var(--gold);
+}
+
+.rail-meta {
+  margin-top:25px;
+  padding-top:22px;
+  border-top:1px solid rgba(187,140,17,.4);
+  color:#77756f;
+  font-size:10px;
+  line-height:1.6;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.mobile-bar,
+.mobile-menu { display:none; }
+
+/* PAGE / ART --------------------------------------------------------------- */
+.page {
+  position:relative;
+  width:calc(100vw - var(--rail));
+  min-height:100vh;
+  margin-left:var(--rail);
+  overflow:hidden;
+  background:#020302;
+}
+
+.gen-field {
+  position:fixed;
+  left:var(--rail);
+  right:0;
+  top:0;
+  width:calc(100vw - var(--rail));
+  height:100vh;
+  z-index:0;
+  pointer-events:none;
+  opacity:1;
+  filter:saturate(1.6) contrast(1.15) brightness(1.15);
+}
+
+.content { position:relative; z-index:2; }
+
+.veil{
+  width:100%;
+  background:linear-gradient(
+    90deg,
+    rgba(0,0,0,var(--veil-strength)),
+    rgba(0,0,0,calc(var(--veil-strength) * .56)) 58%,
+    rgba(0,0,0,calc(var(--veil-strength) * .11))
+  );
+  backdrop-filter:blur(.6px);
+}
+
+/* HOME HERO --------------------------------------------------------------- */
+.hero {
+  min-height:92vh;
+  padding:40px var(--pad) 70px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.micro {
+  color:var(--gold);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.wordmark {
+  display:block;
+  width:min(620px,100%);
+  max-width:100%;
+  height:auto;
+  margin-top:18px;
+  object-fit:contain;
+  object-position:left center;
+  filter:invert(68%) sepia(65%) saturate(875%) hue-rotate(5deg) brightness(78%);
+}
+
+.hero h1 {
+  max-width:760px;
+  margin:62px 0 28px;
+  font-size:clamp(48px,5.6vw,82px);
+  font-weight:300;
+  line-height:.94;
+  letter-spacing:.015em;
+  text-transform:uppercase;
+}
+
+.hero h1 span { color:var(--gold); font-weight:400; }
+
+.lede {
+  max-width:720px;
+  font-size:clamp(20px,2.2vw,30px);
+  line-height:1.25;
+  font-weight:300;
+}
+
+.actions { display:flex; gap:18px; flex-wrap:wrap; margin-top:34px; }
+
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  padding:13px 17px;
+  border:1px solid rgba(187,140,17,.7);
+  font-size:13px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.btn:hover { background:var(--gold); color:#000; } /* Front page button hover colour change --gold */
+
+.btn.secondary { border-color:var(--azure); 
+}
+.btn.secondary:hover { background:var(--azure); color:#000; } /* Front page button hover colour change --azure */
+
+.btn.opensource {
+  border-color:var(--green);
+  color:#fff;
+}
+
+.btn.opensource:hover {
+  background:var(--green);
+  color:#000; /* Front page button hover colour change --green */
+}
+
+/* SECTIONS ---------------------------------------------------------------- */
+.section {
+  padding:90px var(--pad);
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.section-head {
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:30px;
+  margin-bottom:50px;
+}
+
+.section-head h2 {
+  margin:0;
+  font-size:clamp(44px,6vw,66px);
+    font-weight:300;
+  line-height:.9;
+  text-transform:uppercase;
+}
+
+.section-head p {
+  max-width:650px;
+  margin:8px 0 0;
+  color:#d0cdc4;
+  font-size:20px;
+}
+
+/* HOME ROUTE CARDS — deliberately one column. */
+.routes {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:2px;
+  width:100%;
+  background:rgba(187,140,17,.28);
+}
+
+.route {
+  min-width:0;
+  min-height:390px;
+  max-width: 720px;
+  padding:36px;
+  background:rgba(0,0,0,.48);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.route:hover { background:rgba(9,11,10,.86); }
+.route .num { color:var(--azure); font-size:12px; letter-spacing:.15em; }
+.route h3 { margin:0; font-size:clamp(42px,5vw,72px); line-height:.9; text-transform:uppercase; }
+.route p { max-width:430px; color:#bbb8af; font-size:18px; }
+
+/* ==========================================================
+   FRONT PANEL CATALOGUE
+   ========================================================== */
+
+.panel-catalogue {
+  
+}
+
+.catalogue-heading {
+  margin-bottom: 36px;
+}
+
+.catalogue-heading h2 {
+  margin: 10px 0 18px;
+
+  font-size: clamp(34px, 4vw, 58px);
+  font-weight: 300;
+  line-height: 1;
+
+  text-transform: uppercase;
+}
+
+.catalogue-secondary {
+  margin-top: 100px;
+}
+
+
+/* ----------------------------------------------------------
+   PANEL LIST
+   ---------------------------------------------------------- */
+
+.panel-list {
+  width: 100%;
+
+  border-top: 1px solid rgba(187,140,17,.45);
+}
+
+
+/* Each catalogue row has:
+   PROJECT | WIDTH | STATUS */
+
+.panel-row {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    90px
+    120px;
+
+  gap: 28px;
+  align-items: center;
+
+  min-height: 58px;
+  padding: 14px 4px;
+
+  border-bottom: 1px solid rgba(255,255,255,.14);
+
+  color: #dedbd1;
+
+  font-size: 16px;
+  letter-spacing: .025em;
+
+  text-decoration: none;
+
+  transition:
+    color .18s ease,
+    padding-left .18s ease,
+    background .18s ease;
+}
+
+
+/* BMC project number */
+
+.panel-row b {
+  display: inline-block;
+
+  min-width: 100px;
+
+  color: var(--gold);
+
+  font-weight: 500;
+  letter-spacing: .06em;
+}
+
+
+/* ----------------------------------------------------------
+   CLICKABLE ROW HOVER
+   ---------------------------------------------------------- */
+
+a.panel-row:hover {
+  padding-left: 12px;
+
+  color: var(--gold);
+
+  background: rgba(187,140,17,.06);
+}
+
+
+/* Project number switches to azure on hover */
+
+a.panel-row:hover b {
+  color: var(--azure);
+}
+
+
+/* ----------------------------------------------------------
+   COLUMN HEADINGS
+   ---------------------------------------------------------- */
+
+.panel-header {
+  min-height: auto;
+
+  padding-top: 11px;
+  padding-bottom: 11px;
+
+  color: var(--gold);
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+
+/* Header isn't interactive */
+
+.panel-header:hover {
+  padding-left: 4px;
+
+  background: transparent;
+}
+
+
+/* ==========================================================
+   STATUS TAGS
+
+   Change the HTML class to:
+
+   status available
+   status unavailable
+   status retired
+   ========================================================== */
+
+.status {
+  display: inline-block;
+
+  padding: 5px 9px;
+
+  border: 1px solid currentColor;
+
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+
+  letter-spacing: .1em;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+
+/* AVAILABLE
+   Currently available */
+
+.status.available {
+  color: var(--green);
+  background: rgba(18,115,89,.12);
+}
+
+
+/* UNAVAILABLE
+   Temporarily unavailable / may return */
+
+.status.unavailable {
+  color: #D98E18;
+  background: rgba(217,142,24,.12);
+}
+
+
+/* RETIRED
+   Permanently discontinued */
+
+.status.retired {
+  color: #C94B45;
+  background: rgba(201,75,69,.12);
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 760px) {
+
+  .panel-catalogue {
+    width: 100%;
+  }
+
+
+  /* Keep all three pieces of information visible.
+     Project gets the remaining space. */
+
+  .panel-row {
+    grid-template-columns:
+      minmax(0, 1fr)
+      48px
+      auto;
+
+    gap: 10px;
+
+    min-height: 58px;
+
+    padding: 12px 0;
+
+    font-size: 14px;
+  }
+
+
+  /* Put the BMC number above the product name.
+     This makes long names much easier to fit. */
+
+  .panel-row b {
+    display: block;
+
+    min-width: 0;
+
+    margin-bottom: 3px;
+
+    font-size: 10px;
+  }
+
+
+  /* Slightly smaller status labels */
+
+  .status {
+    padding: 4px 6px;
+
+    font-size: 8px;
+
+    letter-spacing: .07em;
+  }
+
+
+  /* Smaller column headings */
+
+  .panel-header {
+    font-size: 9px;
+  }
+
+
+  /* Reduce hover movement on smaller screens */
+
+  a.panel-row:hover {
+    padding-left: 5px;
+  }
+
+
+  /* Less separation between catalogue groups */
+
+  .catalogue-secondary {
+    margin-top: 70px;
+  }
+
+}
+
+/* INNER PAGE TITLES ------------------------------------------------------- */
+.page-title { padding:70px var(--pad) 50px; }
+
+.page-title h1 {
+  margin:50px 0 20px;
+  font-size:clamp(70px,10vw,140px);
+  font-weight:300;
+  line-height:.8;
+  text-transform:uppercase;
+}
+
+.page-title p { max-width:760px; font-size:22px; }
+
+/* GENERAL CARDS ----------------------------------------------------------- */
+.cards {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:2px;
+  /* width:100%; */
+  max-width:620px;
+  background:rgba(187,140,17,.25);
+}
+
+/* ==========================================================
+   HERO IMAGE
+   Reusable editorial feature image
+   ========================================================== */
+
+.hero-image {
+  width:100%;
+  /* margin:40px 0 60px;*/
+  padding-left:clamp(30px, 5vw, 80px);
+}
+
+.hero-image img {
+  display:block;
+  width:100%;
+  max-width:800px;
+  height:auto;
+}
+
+.hero-image figcaption {
+  max-width:800px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.08em;
+}
+
+
+/* MOBILE */
+
+@media (max-width:760px) {
+
+  .hero-image {
+    width:calc(100% - 32px);
+    margin:28px 16px 40px;
+    padding-left:0;
+  }
+
+  .hero-image img {
+    width:100%;
+    max-width:none;
+    height:auto;
+  }
+
+}
+
+/* Front Panels only: one column. Other pages retain their own card layout. */
+.page-front-panels .cards {
+  grid-template-columns:minmax(0,1fr);
+}
+
+.card {
+  min-width:0;
+  min-height:260px;
+  max-width:620px;
+  padding:34px;
+  background:rgba(0,0,0,.50);
+  display:flex;
+  flex-direction:column;
+}
+
+.card .tag { color:var(--azure); font-size:10px; letter-spacing:.15em; }
+.card h2 { margin:35px 0 12px; font-size:36px; line-height:1; text-transform:uppercase; }
+.card p { color:#bbb8af; font-size:17px; }
+.card .card-foot { margin-top:auto; padding-top:25px; color:var(--gold); font-size:12px; letter-spacing:.12em; }
+
+/* MODULE SHOWCASE --------------------------------------------------------- */
+
+.module-showcase {
+  min-height: 620px;
+}
+
+.module-meta {
+  display:flex;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:45px;
+}
+
+.module-showcase-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(320px,.8fr);
+  gap:70px;
+  align-items:center;
+}
+
+.module-info h2 {
+  margin:0 0 18px;
+  font-size:clamp(58px,7vw,105px);
+  font-weight:300;
+  line-height:.85;
+  text-transform:uppercase;
+}
+
+.module-type {
+  margin:0 0 30px;
+  color:var(--gold);
+  font-size:20px;
+  font-weight:300;
+  letter-spacing:.04em;
+}
+
+.module-info .btn {
+  margin-top:25px;
+}
+
+
+/* MODULE PRODUCT IMAGE */
+
+.module-image {
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  width:100%;
+}
+
+.module-image img {
+  display:block;
+  width:100%;
+  max-width:500px;
+  height:auto;
+}
+
+
+/* MOBILE */
+
+@media (max-width:760px) {
+
+  .module-showcase {
+    min-height:0;
+  }
+
+  .module-showcase-grid {
+    grid-template-columns:1fr;
+    gap:40px;
+  }
+
+  .module-info h2 {
+    font-size:clamp(50px,16vw,80px);
+  }
+
+  .module-art {
+    min-height:300px;
+  }
+
+}
+
+/* ABOUT ----------------------------------------------------- */
+
+.about-timeline {
+  width:100%;
+  max-width:900px;
+  margin-top:50px;
+  border-top:1px solid rgba(187,140,17,.45);
+}
+
+.about-event {
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  gap:40px;
+
+  padding:30px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+.about-year {
+  color:var(--gold);
+
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.12em;
+}
+
+.about-event-content h3 {
+  margin:0 0 10px;
+
+  font-size:26px;
+  font-weight:300;
+  text-transform:uppercase;
+}
+
+.about-event-content .copy {
+  margin:0;
+}
+
+
+/* MOBILE */
+
+@media (max-width:760px) {
+
+  .about-event {
+    grid-template-columns:1fr;
+    gap:10px;
+
+    padding:24px 0;
+  }
+
+  .about-event-content h3 {
+    font-size:22px;
+  }
+
+}
+
+/* ==========================================================
+   OPEN SOURCE
+   ========================================================== */
+
+.open-source-catalogue {
+  width:100%;
+  max-width:none;
+}
+
+.open-source-inner {
+  width:100%;
+  max-width:1000px;
+  margin-left:0;
+  margin-right:auto;
+}
+
+.opensource-project {
+  display:grid;
+  grid-template-columns:180px minmax(0,1fr);
+  gap:50px;
+
+  padding:42px 0;
+
+  border-top:1px solid rgba(255,255,255,.14);
+}
+
+.opensource-project:last-child {
+  border-bottom:1px solid rgba(255,255,255,.14);
+}
+
+.opensource-type {
+  padding-top:7px;
+
+  color:var(--green);
+
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.opensource-info h3 {
+  margin:0 0 8px;
+
+  font-size:clamp(30px,4vw,48px);
+  font-weight:300;
+  line-height:1;
+  text-transform:uppercase;
+}
+
+.opensource-subtitle {
+  margin:0 0 20px;
+
+  color:var(--gold);
+
+  font-size:16px;
+  font-weight:300;
+  letter-spacing:.04em;
+}
+
+.opensource-info .copy {
+  max-width:620px;
+}
+
+.opensource-actions {
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+
+  margin-top:25px;
+}
+
+
+/* MOBILE */
+
+@media (max-width:760px) {
+
+  .opensource-project {
+    grid-template-columns:1fr;
+    gap:12px;
+
+    padding:30px 0;
+  }
+
+  .opensource-type {
+    padding-top:0;
+  }
+
+  .opensource-info h3 {
+    font-size:32px;
+  }
+
+}
+
+
+
+/* PRODUCT PAGE ------------------------------------------------------------ */
+.product-hero {
+  min-height:76vh;
+  padding:65px var(--pad);
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:50px;
+  align-items:end;
+}
+
+.product-hero h1 {
+  margin:28px 0;
+  font-size:clamp(65px,8vw,118px);
+  font-weight:300;
+  line-height:.82;
+  text-transform:uppercase;
+}
+
+.product-art {
+  position:relative;
+  min-height:460px;
+  overflow:hidden;
+  border:1px solid rgba(187,140,17,.35);
+  background:rgba(0,0,0,.10);
+}
+
+.product-art::after {
+  content:"BMC003 / SEED 137";
+  position:absolute;
+  right:16px;
+  bottom:14px;
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.14em;
+}
+
+/* BMC003 metadata: deliberately one vertical column. */
+.page-bmc003 .spec-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  max-width:620px;
+  border-top:1px solid rgba(255,255,255,.14);
+  border-left:1px solid rgba(255,255,255,.14);
+}
+
+.spec {
+  padding:24px;
+  border-right:1px solid rgba(255,255,255,.14);
+  border-bottom:1px solid rgba(255,255,255,.14);
+  background:rgba(0,0,0,.46);
+}
+
+.spec b {
+  display:block;
+  margin-bottom:9px;
+  color:var(--gold);
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.spec span { font-size:19px; }
+
+.copy {
+  max-width:780px;
+  font-size:20px;
+  line-height:1.55;
+}
+
+.vendor {
+  max-width:620px;
+  margin-top:45px;
+  padding:28px;
+  border:1px solid rgba(187,140,17,.5);
+  background:rgba(0,0,0,.54);
+}
+
+.vendor h3 {
+  margin:0 0 18px;
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:.13em;
+}
+
+.vendor a {
+  display:flex;
+  justify-content:space-between;
+  padding:15px 0;
+  border-top:1px solid rgba(255,255,255,.12);
+  font-size:20px;
+}
+
+.vendor small {
+  display:block;
+  margin-top:18px;
+  color:#888;
+  font-size:12px;
+}
+
+.footer {
+  padding:40px var(--pad) 55px;
+  border-top:1px solid rgba(187,140,17,.3);
+  color:#777;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+
+
+
+/* ==========================================================================
+   4.18 GLOBAL VEIL SYSTEM
+   Veil-bearing sections span the full content width. Width constraints live
+   on inner content wrappers so opacity/gradient read consistently site-wide.
+   ========================================================================== */
+
+.veil-inner{
+  width:100%;
+  max-width:1100px;
+  margin-left:0;
+  margin-right:auto;
+}
+
+.section.veil,
+.page-title.veil,
+.hero.veil,
+.footer.veil{
+  width:100%;
+  max-width:none;
+}
+
+
+/* ==========================================================================
+   4.27 OPEN SOURCE HERO VEIL
+   The hero image keeps its original width/alignment. Only the veil spans the
+   full page-content width.
+   ========================================================================== */
+.open-source-hero-veil{
+  width:100%;
+  max-width:none;
+}
+
+
+/* ==========================================================================
+   4.28 GLOBAL PAGE MICRO + FOOTER CODEX
+   Page-level naming follows OSCILLOSAURUS / WHATEVER.
+   Footer copy is one shared system/codex line across the site.
+   ========================================================================== */
+.footer{
+  letter-spacing:.12em;
+}

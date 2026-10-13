@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta name="description" content="Signal Garden is an interactive generative playground for graphic rhythm and motion by Oscillosaurus.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://oscillosaurus.com/signal-garden.html">
+  <link rel="icon" href="assets/oscillosaurus-logo.svg" type="image/svg+xml">
+  <meta property="og:site_name" content="Oscillosaurus">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_AU">
+  <meta property="og:title" content="Signal Garden — Oscillosaurus">
+  <meta property="og:description" content="Signal Garden is an interactive generative playground for graphic rhythm and motion by Oscillosaurus.">
+  <meta property="og:url" content="https://oscillosaurus.com/signal-garden.html">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Signal Garden — Oscillosaurus">
+  <meta name="twitter:description" content="Signal Garden is an interactive generative playground for graphic rhythm and motion by Oscillosaurus.">
+
+  <title>Signal Garden — Oscillosaurus</title>
+  <link rel="stylesheet" href="css/oscillosaurus.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/visualiser.css">
+</head>
+<body class="page-visualiser page-signal-garden">
+  <div class="site">
+    <!-- DESKTOP NAVIGATION — normally no editing needed -->
+ <aside class="site-rail rail">
+    <a class="brand-home" href="index.html">
+     <img alt="Oscillosaurus" src="assets/oscillosaurus-logo.svg"/>
+    </a>
+    <nav class="nav">
+     <a href="front-panels.html">Front Panels</a>
+     <a href="modules.html">Modules</a>
+     <a href="opensource.html">Open Source</a>
+     <a href="about.html">About</a>
+     <a href="support.html">Support</a>
+     <a class="active" href="signal-garden.html">Signal Garden</a>
+    </nav>
+    <div class="rail-social">
+     <a href="https://www.instagram.com/oscillosaurus" target="_blank" rel="noopener noreferrer">instagram</a>
+     <br/>
+     <a href="https://www.facebook.com/oscillosaurus" target="_blank" rel="noopener noreferrer">facebook</a>
+     <br/>
+     <a href="https://www.youtube.com/@oscillosaurus" target="_blank" rel="noopener noreferrer">youtube</a>
+     <br/>
+     <a href="https://modulargrid.net/e/vendors/view/341" target="_blank" rel="noopener noreferrer">modulargrid</a>
+     <br/>
+     <a href="https://github.com/oscillosaurus" target="_blank" rel="noopener noreferrer">github</a>
+    </div>
+    <div class="rail-meta">
+     Oscillosaurus / Australia
+     <br/>
+     Est. 2015 / System 004.4
+    </div>
+   </aside>
+    <!-- MOBILE HEADER / MENU BUTTON -->
+ <div class="mobile-bar">
+    <a class="mobile-home" href="index.html">
+   <img alt="Oscillosaurus" src="assets/oscillosaurus-wordmark.svg"/>
+   </a>
+   <button class="menu-button">
+    MENU
+   </button>
+  </div>
+  <!-- MOBILE MENU LINKS -->
+ <nav class="mobile-menu">
+     <a href="front-panels.html">Front Panels</a>
+     <a href="modules.html">Modules</a>
+     <a href="opensource.html">Open Source</a>
+     <a href="about.html">About</a>
+     <a href="support.html">Support</a>
+     <a class="active" href="signal-garden.html">Signal Garden</a>
+    </nav>
+    <div class="visualiser-shell">
+      <main class="visualiser-app">
+    <section class="stage">
+      <svg id="art" viewBox="0 0 1200 800" aria-label="Oscillosaurus Visual Engine preview"></svg>
+      <div class="stage-tools">
+        <div class="stage-actions">
+          <label><input id="showGrid" type="checkbox" checked> SHOW GRID</label>
+          <button id="fullscreen" type="button">FULLSCREEN</button>
+        </div>
+        <span id="readout">8×8 / 64 STEPS</span>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <header>
+        <div class="eyebrow">OSCILLOSAURUS / SIGNAL GARDEN</div>
+        <h1>SIGNAL GARDEN</h1>
+        <p>A generative playground for graphic rhythm and motion.</p>
+      </header>
+
+      <section class="block">
+        <h2>MASTER</h2>
+        <div class="two">
+          <label>GRID X <output data-out="gridX"></output><input data-p="gridX" type="range" min="3" max="16" step="1" value="8"></label>
+          <label>GRID Y <output data-out="gridY"></output><input data-p="gridY" type="range" min="3" max="12" step="1" value="8"></label>
+        </div>
+        <label>GRID SCALE <output data-out="gridScale"></output><input data-p="gridScale" type="range" min="0.25" max="3" step="0.01" value="0.82"></label>
+        <label>GRID ROTATION <output data-out="gridRotation"></output><input data-p="gridRotation" type="range" min="-45" max="45" step="1" value="0"></label>
+        <div class="seedrow"><label>SEED <input id="seed" value="0887" inputmode="numeric"></label><button id="random">RANDOMISE</button><button id="reset">RESET</button></div>
+      </section>
+
+      <section class="block">
+        <h2>SOURCE</h2>
+        <div class="two">
+          <label>X <output data-out="sourceX"></output><input data-p="sourceX" type="range" min="0" max="1" step="0.01" value="0.50"></label>
+          <label>Y <output data-out="sourceY"></output><input data-p="sourceY" type="range" min="0" max="1" step="0.01" value="0.50"></label>
+        </div>
+        <label>SIZE <output data-out="sourceSize"></output><input data-p="sourceSize" type="range" min="0" max="0.50" step="0.01" value="0.18"></label>
+        <div class="two">
+          <label>RINGS <output data-out="sourceRings"></output><input data-p="sourceRings" type="range" min="1" max="12" step="1" value="7"></label>
+          <label>DOTS <output data-out="sourceDots"></output><input data-p="sourceDots" type="range" min="0" max="32" step="1" value="16"></label>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>VOICES</h2>
+        <div id="voices"></div>
+      </section>
+
+      <section class="block">
+        <h2>GROOVE</h2>
+        <label>TIMING <output data-out="swing"></output><input data-p="swing" type="range" min="0" max="2" step="0.01" value="0"></label>
+        <label>SWING <output data-out="jitter"></output><input data-p="jitter" type="range" min="0" max="2" step="0.01" value="0"></label>
+        <label>VELOCITY <output data-out="scaleJitter"></output><input data-p="scaleJitter" type="range" min="0" max="1" step="0.01" value="0"></label>
+      </section>
+
+      <section class="block">
+        <h2>CHARACTER <small>ASSIGNED AT BIRTH</small></h2>
+        <p class="character-note">Most rings are normal. A small, fixed minority are born GATED or WAVY. Assignment does not change when these controls move.</p>
+        <div class="two">
+          <label>GATE SEGMENTS <output data-out="gateSegments"></output><input data-p="gateSegments" type="range" min="2" max="32" step="1" value="10"></label>
+          <label>GATE PHASE <output data-out="gatePhase"></output><input data-p="gatePhase" type="range" min="0" max="360" step="1" value="0"></label>
+        </div>
+        <div class="two">
+          <label>WAVE FREQ <output data-out="waveFreq"></output><input data-p="waveFreq" type="range" min="1" max="16" step="1" value="7"></label>
+          <label>WAVE DEPTH <output data-out="waveDepth"></output><input data-p="waveDepth" type="range" min="0" max="0.22" step="0.005" value="0.08"></label>
+        </div>
+        <label>WAVE PHASE <output data-out="wavePhase"></output><input data-p="wavePhase" type="range" min="0" max="360" step="1" value="0"></label>
+      </section>
+                  <section class="block">
+        <h2>MOTION / MODULATION</h2>
+
+        <div class="v74-transport">
+          <button id="motionPlay" type="button">▶ PLAY</button>
+          <button id="motionStop" type="button">■ STOP</button>
+        </div>
+        <div class="v7-status" id="motionStatus">STOPPED</div>
+
+        <div class="v74-source" id="playheadSource">
+          <div class="v74-source-head">
+            <h3>PLAYHEAD</h3>
+            <label class="v74-enable"><input id="continuousEnabled" type="checkbox" checked> ON</label>
+          </div>
+          <div class="v77-source-body" id="playheadBody">
+            <label>DESTINATION
+              <select id="continuousDestination">
+              <option value="orbitPhase">ORBITS / ORBIT PHASE</option>
+              <option value="gridRotation">MASTER / GRID ROTATION</option>
+              <option value="gatePhase">CHARACTER / GATE PHASE</option>
+              <option value="wavePhase">CHARACTER / WAVE PHASE</option>
+              </select>
+            </label>
+            <label>SPEED
+              <output id="continuousRateOut"></output>
+              <input id="continuousRate" type="range" min="2" max="120" step="1" value="12">
+            </label>
+            <label>DIRECTION
+              <select id="continuousDirection">
+                <option value="forward">FORWARD</option>
+                <option value="reverse">REVERSE</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="v74-source" id="lfo1Source">
+          <div class="v74-source-head">
+            <h3>LFO 1</h3>
+            <label class="v74-enable"><input id="lfo1Enabled" type="checkbox" checked> ON</label>
+          </div>
+          <div class="v77-source-body" id="lfo1Body">
+            <label>SHAPE
+              <select id="lfo1Shape">
+              <option value="sine">SINE</option>
+              <option value="triangle">TRIANGLE</option>
+              <option value="sawUp">SAW UP</option>
+              <option value="sawDown">SAW DOWN</option>
+              <option value="square">SQUARE</option>
+              <option value="sampleHold">SAMPLE &amp; HOLD</option>
+              </select>
+            </label>
+            <label>DESTINATION
+              <select id="lfo1Destination">
+              <optgroup label="CYCLIC">
+                <option value="orbitPhase">ORBITS / ORBIT PHASE</option>
+                <option value="gridRotation">MASTER / GRID ROTATION</option>
+                <option value="gatePhase">CHARACTER / GATE PHASE</option>
+                <option value="wavePhase">CHARACTER / WAVE PHASE</option>
+              </optgroup>
+              <optgroup label="SMOOTH">
+                <option value="gridScale">MASTER / GRID SCALE</option>
+                <option value="sourceX">SOURCE / X</option>
+                <option value="sourceY">SOURCE / Y</option>
+                <option value="sourceSize">SOURCE / SIZE</option>
+                <option value="ringsSize">RINGS / SIZE</option>
+                <option value="orbitsSize">ORBITS / SIZE</option>
+                <option value="dotsSize">DOTS / SIZE</option>
+                <option value="crossesSize">CROSSES / SIZE</option>
+                <option value="scaleJitter">GROOVE / VELOCITY</option>
+                <option value="swing">GROOVE / TIMING</option>
+                <option value="jitter">GROOVE / SWING</option>
+              </optgroup>
+              </select>
+            </label>
+            <label id="lfo1StepsRow" hidden>S&amp;H STEPS
+              <output id="lfo1StepsOut"></output>
+              <input id="lfo1Steps" type="range" min="2" max="16" step="1" value="8">
+            </label>
+            <label>RATE
+              <output id="lfo1RateOut"></output>
+              <input id="lfo1Rate" type="range" min="2" max="120" step="1" value="12">
+            </label>
+            <label>DEPTH
+              <output id="lfo1DepthOut"></output>
+              <input id="lfo1Depth" type="range" min="0" max="180" step="1" value="45">
+            </label>
+            <label>PHASE
+              <output id="lfo1PhaseOut"></output>
+              <input id="lfo1Phase" type="range" min="0" max="359" step="1" value="0">
+            </label>
+          </div>
+        </div>
+
+        <div class="v74-source" id="lfo2Source">
+          <div class="v74-source-head">
+            <h3>LFO 2</h3>
+            <label class="v74-enable"><input id="lfo2Enabled" type="checkbox"> ON</label>
+          </div>
+          <div class="v77-source-body" id="lfo2Body">
+            <label>SHAPE
+              <select id="lfo2Shape">
+              <option value="sine">SINE</option>
+              <option value="triangle">TRIANGLE</option>
+              <option value="sawUp">SAW UP</option>
+              <option value="sawDown">SAW DOWN</option>
+              <option value="square">SQUARE</option>
+              <option value="sampleHold">SAMPLE &amp; HOLD</option>
+              </select>
+            </label>
+            <label>DESTINATION
+              <select id="lfo2Destination">
+              <optgroup label="CYCLIC">
+                <option value="orbitPhase">ORBITS / ORBIT PHASE</option>
+                <option value="gridRotation">MASTER / GRID ROTATION</option>
+                <option value="gatePhase">CHARACTER / GATE PHASE</option>
+                <option value="wavePhase">CHARACTER / WAVE PHASE</option>
+              </optgroup>
+              <optgroup label="SMOOTH">
+                <option value="gridScale">MASTER / GRID SCALE</option>
+                <option value="sourceX">SOURCE / X</option>
+                <option value="sourceY">SOURCE / Y</option>
+                <option value="sourceSize">SOURCE / SIZE</option>
+                <option value="ringsSize">RINGS / SIZE</option>
+                <option value="orbitsSize">ORBITS / SIZE</option>
+                <option value="dotsSize">DOTS / SIZE</option>
+                <option value="crossesSize">CROSSES / SIZE</option>
+                <option value="scaleJitter">GROOVE / VELOCITY</option>
+                <option value="swing">GROOVE / TIMING</option>
+                <option value="jitter">GROOVE / SWING</option>
+              </optgroup>
+              </select>
+            </label>
+            <label id="lfo2StepsRow" hidden>S&amp;H STEPS
+              <output id="lfo2StepsOut"></output>
+              <input id="lfo2Steps" type="range" min="2" max="16" step="1" value="8">
+            </label>
+            <label>RATE
+              <output id="lfo2RateOut"></output>
+              <input id="lfo2Rate" type="range" min="2" max="120" step="1" value="16">
+            </label>
+            <label>DEPTH
+              <output id="lfo2DepthOut"></output>
+              <input id="lfo2Depth" type="range" min="0" max="180" step="1" value="45">
+            </label>
+            <label>PHASE
+              <output id="lfo2PhaseOut"></output>
+              <input id="lfo2Phase" type="range" min="0" max="359" step="1" value="0">
+            </label>
+          </div>
+        </div>
+
+        <div class="v74-source" id="lfo3Source">
+          <div class="v74-source-head">
+            <h3>LFO 3</h3>
+            <label class="v74-enable"><input id="lfo3Enabled" type="checkbox"> ON</label>
+          </div>
+          <div class="v77-source-body" id="lfo3Body">
+            <label>SHAPE
+              <select id="lfo3Shape">
+              <option value="sine">SINE</option>
+              <option value="triangle">TRIANGLE</option>
+              <option value="sawUp">SAW UP</option>
+              <option value="sawDown">SAW DOWN</option>
+              <option value="square">SQUARE</option>
+              <option value="sampleHold">SAMPLE &amp; HOLD</option>
+              </select>
+            </label>
+            <label>DESTINATION
+              <select id="lfo3Destination">
+              <optgroup label="CYCLIC">
+                <option value="orbitPhase">ORBITS / ORBIT PHASE</option>
+                <option value="gridRotation">MASTER / GRID ROTATION</option>
+                <option value="gatePhase">CHARACTER / GATE PHASE</option>
+                <option value="wavePhase">CHARACTER / WAVE PHASE</option>
+              </optgroup>
+              <optgroup label="SMOOTH">
+                <option value="gridScale">MASTER / GRID SCALE</option>
+                <option value="sourceX">SOURCE / X</option>
+                <option value="sourceY">SOURCE / Y</option>
+                <option value="sourceSize">SOURCE / SIZE</option>
+                <option value="ringsSize">RINGS / SIZE</option>
+                <option value="orbitsSize">ORBITS / SIZE</option>
+                <option value="dotsSize">DOTS / SIZE</option>
+                <option value="crossesSize">CROSSES / SIZE</option>
+                <option value="scaleJitter">GROOVE / VELOCITY</option>
+                <option value="swing">GROOVE / TIMING</option>
+                <option value="jitter">GROOVE / SWING</option>
+              </optgroup>
+              </select>
+            </label>
+            <label id="lfo3StepsRow" hidden>S&amp;H STEPS
+              <output id="lfo3StepsOut"></output>
+              <input id="lfo3Steps" type="range" min="2" max="16" step="1" value="8">
+            </label>
+            <label>RATE
+              <output id="lfo3RateOut"></output>
+              <input id="lfo3Rate" type="range" min="2" max="120" step="1" value="20">
+            </label>
+            <label>DEPTH
+              <output id="lfo3DepthOut"></output>
+              <input id="lfo3Depth" type="range" min="0" max="180" step="1" value="45">
+            </label>
+            <label>PHASE
+              <output id="lfo3PhaseOut"></output>
+              <input id="lfo3Phase" type="range" min="0" max="359" step="1" value="0">
+            </label>
+          </div>
+        </div>
+      </section>
+
+<section class="block export-block">
+        <h2>EXPORT</h2>
+        <label>PNG PRESET
+          <select id="exportPreset">
+            <option value="1920x1080">Desktop — 1920 × 1080</option>
+            <option value="3840x2160">4K Desktop — 3840 × 2160</option>
+            <option value="2048x2048">Square — 2048 × 2048</option>
+            <option value="1440x2560">Phone — 1440 × 2560</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <div class="two custom-size" id="customSize" hidden>
+          <label>WIDTH <input id="exportWidth" type="number" min="64" max="8192" step="1" value="1920"></label>
+          <label>HEIGHT <input id="exportHeight" type="number" min="64" max="8192" step="1" value="1080"></label>
+        </div>
+        <button id="exportPng" class="export-button" type="button">EXPORT PNG</button>
+      </section>
+
+      <footer>
+  OSAU / AUSTRALIA / EST.2015 / SYS.004.4 / <span data-footer-seed>S.—</span>
+</footer>
+    </aside>
+  </main>
+    </div>
+  </div>
+  <script src="js/site.js"></script>
+  <script src="js/visualiser-engine.js"></script>
+  <script src="js/visualiser-lab.js"></script>
+</body>
+</html>
