@@ -303,6 +303,29 @@ button { font:inherit; }
   margin-top: 100px;
 }
 
+/* Section-level Front Panels imagery.
+   Desktop aligns to the catalogue content; mobile deliberately mirrors
+   the Open Source hero's 16px viewport margin. */
+.panel-section-hero {
+  width:100%;
+  max-width:800px;
+  margin:0 0 42px;
+}
+
+.panel-section-hero img {
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+@media (max-width:760px) {
+  .panel-section-hero {
+    width:calc(100% + 8px);
+    max-width:none;
+    margin:0 0 40px -4px;
+  }
+}
+
 
 /* ----------------------------------------------------------
    PANEL LIST
