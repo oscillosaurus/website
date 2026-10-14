@@ -308,7 +308,7 @@ button { font:inherit; }
    the Open Source hero's 16px viewport margin. */
 .panel-section-hero {
   width:100%;
-  max-width:800px;
+  max-width:none;
   margin:0 0 42px;
 }
 
