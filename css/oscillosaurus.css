@@ -315,6 +315,7 @@ button { font:inherit; }
 .panel-section-hero img {
   display:block;
   width:100%;
+  max-width:800px;
   height:auto;
 }
 
